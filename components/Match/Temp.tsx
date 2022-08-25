@@ -28,7 +28,7 @@ export default function Matching({ onClose }: Props) {
     const handleInput = (e: any) => {
         setGreetMessage(e.target.value);
     };
-    const handleSend = (e: FormDataEvent) => {
+    const handleSend = (e: any) => {
         e.preventDefault();
         setGreetMessage('');
     };
@@ -70,10 +70,7 @@ export default function Matching({ onClose }: Props) {
                             </p>
                         </div>
                         <div className="w-full flex flex-col mb-4 px-4 gap-[2.2rem]">
-                            <form
-                                onSubmit={handleSend}
-                                className="relative flex flex-row justify-between w-full p-2.5 bg-white rounded-3xl text-main-purple"
-                            >
+                            <div className="relative flex flex-row justify-between w-full p-2.5 bg-white rounded-3xl text-main-purple">
                                 <input
                                     className="w-full px-2.5 text-base font-bold rounded-4xl placeholder:text-main-purple"
                                     type="text"
@@ -84,7 +81,7 @@ export default function Matching({ onClose }: Props) {
                                 <button type="submit" onClick={handleSend} className="bg-white">
                                     <SendIcon />
                                 </button>
-                            </form>
+                            </div>
                             <button onClick={handleSkip} className="font-normal bg-main-purple">
                                 Skip
                             </button>
@@ -94,13 +91,13 @@ export default function Matching({ onClose }: Props) {
             )}
             {matchedFriends.length < 1 && (
                 <div className="container-np flex flex-col justify-between text-white p-6.5 h-screen min-h-screen w-screen overflow-hidden overflow-y-auto">
-                    <a className="flex flex-row justify-end p-4 text-neutral-80 cursor-pointer">
+                    <a className="flex flex-row justify-end p-4 cursor-pointer text-neutral-80">
                         <CloseIcon />
                     </a>
                     <div className="image-container">
                         <Image className="image" src="/assets/images/empty_match.jpg" alt="empty_img" layout="fill" />
                     </div>
-                    <div className="flex-center mb-4">
+                    <div className="mb-4 flex-center">
                         <button className="bg-[#E56A4C] rounded-xl px-5 py-2 flex-center gap-2" onClick={onFindOther}>
                             <MdOutlineTravelExplore />
                             Discover new people
