@@ -22,9 +22,9 @@ const GiftPackage: NextPageWithLayout = () => {
     }, [fetchData]);
 
     return (
-        <section className="container-np bg-white min-h-screen relative">
-            <div className="bg-main-purple text-white">
-                <nav className="flex justify-between items-center px-4 py-2">
+        <section className="relative min-h-screen bg-white container-np">
+            <div className="text-white bg-main-purple">
+                <nav className="flex items-center justify-between px-4 py-2">
                     <button>
                         <CloseIcon />
                     </button>
@@ -40,8 +40,8 @@ const GiftPackage: NextPageWithLayout = () => {
                     <p className="body-3">See who's already interested in you!</p>
                 </div>
             </div>
-            <div className="bg-white p-4">
-                <div className="grid grid-cols-2 p gap-4">
+            <div className="p-4 bg-white">
+                <div className="grid grid-cols-2 gap-4 p">
                     {res?.map((item) => (
                         <GiftOption
                             id={item._id}
@@ -55,17 +55,17 @@ const GiftPackage: NextPageWithLayout = () => {
                     ))}
                 </div>
             </div>
-            <div className="text-xs text-neutral-60 gap-3 text-left p-5">
+            <div className="gap-3 p-5 text-xs text-left text-neutral-60">
                 <p>
                     <span className="text-red-500">*</span> Gifts package will be charged to your account through
                     notifications
                 </p>
                 <p>
-                    <span className="text-red-500">*</span> All payment follow by our policy & services. Safely and
+                    <span className="text-red-500">*</span> All payment follow by our policy and services. Safely and
                     fastly!
                 </p>
             </div>
-            <div className="flex-center absolute w-full left-0 bottom-0 p-10">
+            <div className="absolute bottom-0 left-0 w-full p-10 flex-center">
                 <button className="bg-main-purple py-2 px-8 text-white w-[90%] rounded-3xl shadow-lg hover:bg-[#714fe9] flex-center gap-2">
                     <VscDebugContinueSmall /> Continue
                 </button>
