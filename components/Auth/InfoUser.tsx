@@ -53,8 +53,8 @@ export default function InfoUser(props: Props) {
                         </p>
                     </div>
                     <div className="flex flex-col gap-4">
-                        <Input name="name" label="Họ tên" required placeholder="Ví dụ: Trần Ngọc Tâm" />
-                        <Input name="email" label="Email" required placeholder="Ví dụ: tamtn@hehe.com" />
+                        <Input name="name" label="Họ tên" option={required: true} placeholder="Ví dụ: Trần Ngọc Tâm" />
+                        <Input name="email" label="Email" option={required: true} placeholder="Ví dụ: tamtn@hehe.com" />
                         <InputCalendar name="birthday" label="Năm sinh" placeholder="Ví dụ: 20/11/1980" />
                         <InputSelect name="gender" label="Giới tính" options={GENDERS} />
                     </div>
