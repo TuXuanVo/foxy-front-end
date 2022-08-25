@@ -37,7 +37,7 @@ const GiftPackage: NextPageWithLayout = () => {
                     <h2 className="font-medium" style={{ textShadow: '1px 3px 3px black' }}>
                         Gift package
                     </h2>
-                    <p className="body-3">See who's already interested in you!</p>
+                    <p className="body-3">See who's already interested in you</p>
                 </div>
             </div>
             <div className="p-4 bg-white">
@@ -57,12 +57,12 @@ const GiftPackage: NextPageWithLayout = () => {
             </div>
             <div className="gap-3 p-5 text-xs text-left text-neutral-60">
                 <p>
-                    <span className="text-red-500">*</span> Gifts package will be charged to your account through
+                    <span className="text-red-500"></span> Gifts package will be charged to your account through
                     notifications
                 </p>
                 <p>
-                    <span className="text-red-500">*</span> All payment follow by our policy and services. Safely and
-                    fastly!
+                    <span className="text-red-500"></span> All payment follow by our policy and services. Safely and
+                    fastly
                 </p>
             </div>
             <div className="absolute bottom-0 left-0 w-full p-10 flex-center">
