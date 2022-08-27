@@ -13,7 +13,7 @@ import APP_PATH from '../../constant/appPath';
 import { userVerifyOTP } from '../../redux/actions/userActions';
 import { toastError } from '../../utils/toast';
 import InputOTP from '../../components/Auth/InputOTP';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../context/userContext';
 
 const OTP: NextPage = () => {
     const router = useRouter();
