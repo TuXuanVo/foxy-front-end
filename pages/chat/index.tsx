@@ -13,7 +13,7 @@ import { NextPageWithLayout } from '../../types/global';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/reducers/userSlice';
 import { generateFullName } from '../../utils/name';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { conversationGetAll } from '../../redux/actions/conversationActions';
 import { toastError, toastSuccess } from '../../utils/toast';
 import { selectConversation } from '../../redux/reducers/conversationSlice';
@@ -22,22 +22,16 @@ import Button from '../../components/Button';
 
 const Chat: NextPageWithLayout = () => {
     const router = useRouter();
-    const dispatch = useAppDispatch();
     const sUser = useSelector(selectUser);
-    const sConversation = useSelector(selectConversation);
+    const sConversation = useAppSelector(selectConversation);
     const handleClick = (_id: string) => () => {
         router.push(`${APP_PATH.CHAT}/${_id}`);
     };
-    useEffect(() => {
-        async function getAllConversations() {
-            try {
-                await dispatch(conversationGetAll()).unwrap();
-            } catch (error) {
-                toastError((error as IResponseError).error);
-            }
-        }
-        !sConversation.isCalled && getAllConversations();
-    }, [dispatch, sConversation.isCalled]);
+    const handleClickLikeItem = (_id: string) => {
+        const conversationId = sConversation.data.find((item) => item.conversation.users[0]._id === _id)?.conversation
+            ._id;
+        conversationId && router.push(`${APP_PATH.CHAT}/${conversationId}`);
+    };
 
     return (
         <section className="container bg-white with-navbar">
@@ -55,12 +49,16 @@ const Chat: NextPageWithLayout = () => {
                     <Swiper
                         spaceBetween={16}
                         slidesPerView={3.5}
-                        onSlideChange={() => console.log('slide change')}
-                        onSwiper={(swiper) => console.log(swiper + 'dùng để scroll infinite')}
+                        // onSlideChange={() => console.log('slide change')}
+                        // onSwiper={(swiper) => console.log(swiper + 'dùng để scroll infinite')}
                     >
                         {sUser.data?.friends.map((item: IUserFriend, index) => (
                             <SwiperSlide className="p-1" key={index}>
-                                <LikeItem avatar={item.avatar} name={generateFullName(item.name)} />
+                                <LikeItem
+                                    avatar={item.avatar}
+                                    name={generateFullName(item.name)}
+                                    onClick={() => handleClickLikeItem(item._id)}
+                                />
                             </SwiperSlide>
                         ))}
                     </Swiper>

@@ -11,8 +11,7 @@ import { NextPageWithLayout } from '../types/global';
 import userApi from '../apis/userApi';
 import NavbarLayout from '../components/NavbarLayout';
 import SurtItem from '../components/Surf/SurtItem';
-import { Popover } from '@headlessui/react';
-import notificationApi from '../apis/notificationApi';
+import { Popover, Transition } from '@headlessui/react';
 import NotificationItem from '../components/Surf/NotificationItem';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../hooks/redux';
@@ -21,13 +20,12 @@ import { toastError, toastSuccess } from '../utils/toast';
 import { selectNotification } from '../redux/reducers/notificationSlice';
 import { userBlockUser, userLikeUser } from '../redux/actions/userActions';
 import { selectUser } from '../redux/reducers/userSlice';
-import Temp from '../components/Match/Temp';
+import { GrClose } from 'react-icons/gr';
 
 const Surf: NextPageWithLayout = () => {
     const dispatch = useAppDispatch();
     const sUser = useSelector(selectUser);
-    const sNotification = useSelector(selectNotification).data;
-    const [isOpenFavourite, setIsOpenFavourite] = useState(false);
+    const sNotification = useSelector(selectNotification);
     const [stranger, setStranger] = useState<IStranger>();
     const [strangers, setStrangers] = useState<IStranger[]>([]);
 
@@ -36,7 +34,6 @@ const Surf: NextPageWithLayout = () => {
     };
 
     const handleClose = () => {
-        setIsOpenFavourite(false);
         setStranger(undefined);
     };
 
@@ -73,7 +70,7 @@ const Surf: NextPageWithLayout = () => {
             setStrangers(response.data.data);
         }
         try {
-            getNotifications();
+            !sNotification.isCalled && getNotifications();
             if (sUser.data?.lastLocation) findStrangeFriendsAround();
             else toastError('Bạn chưa cập nhật vị trí');
         } catch (error) {
@@ -82,11 +79,12 @@ const Surf: NextPageWithLayout = () => {
         return () => {
             setStrangers([]);
         };
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
     return (
         <>
-            <section className="container relative px-4 pb-32 bg-white">
+            <section className="container relative px-4 pb-32 bg-white with-navbar">
                 <Title
                     className="py-[7px] mb-6"
                     content={
@@ -94,22 +92,44 @@ const Surf: NextPageWithLayout = () => {
                             <h1 className="font-extrabold leading-10 text-h2 text-primary-50 font-secondary">Foxy</h1>
                             <Popover className="relative">
                                 <Popover.Button as={Fragment}>
-                                    <button className="p-2">
+                                    <button
+                                        className={`relative p-2 -mt-1 ${
+                                            sNotification.data.some((notification) => !notification.hasSeen)
+                                                ? 'after:absolute after:top-1 after:left-1/2 after:w-3 after:h-3 after:rounded-full after:bg-red-500 after:animate-ping'
+                                                : ''
+                                        }`}
+                                    >
                                         <BellIcon />
                                     </button>
                                 </Popover.Button>
-
-                                <Popover.Panel className="absolute right-0 z-10 top-full">
-                                    <div className="flex flex-col gap-1 p-2 overflow-y-auto bg-white rounded-md shadow-md max-h-60 min-w-[320px]">
-                                        {sNotification.length > 0 ? (
-                                            sNotification.map((notification) => (
-                                                <NotificationItem key={notification._id} data={notification} />
-                                            ))
-                                        ) : (
-                                            <p className="py-2 font-medium text-center text-gray-500"> ❤️ Trống</p>
-                                        )}
-                                    </div>
-                                </Popover.Panel>
+                                <Transition
+                                    enter="transition-all duration-300"
+                                    enterFrom="translate-y-full"
+                                    enterTo="translate-y-0"
+                                    leave="transition-all duration-300"
+                                    leaveFrom="translate-y-0"
+                                    leaveTo="-translate-y-full"
+                                    as={Fragment}
+                                >
+                                    <Popover.Panel className="fixed inset-0 z-10 w-full max-w-3xl px-4 py-2 overflow-y-auto -translate-x-1/2 bg-white left-1/2 with-navbar">
+                                        <div className="flex justify-end">
+                                            <Popover.Button as={Fragment}>
+                                                <button className="p-2">
+                                                    <GrClose size={24} />
+                                                </button>
+                                            </Popover.Button>
+                                        </div>
+                                        <div className="flex flex-col gap-1 overflow-y-auto bg-white rounded-md min-w-[320px]">
+                                            {sNotification.data.length > 0 ? (
+                                                sNotification.data.map((notification) => (
+                                                    <NotificationItem key={notification._id} data={notification} />
+                                                ))
+                                            ) : (
+                                                <p className="py-2 font-medium text-center text-gray-500"> ❤️ Trống</p>
+                                            )}
+                                        </div>
+                                    </Popover.Panel>
+                                </Transition>
                             </Popover>
                         </div>
                     }
@@ -162,8 +182,6 @@ const Surf: NextPageWithLayout = () => {
                 {stranger && (
                     <SurtItem stranger={stranger} onClose={handleClose} onLike={handleLike} onBlock={handleBlock} />
                 )}
-
-                {isOpenFavourite && <Temp onClose={handleClose} />}
             </section>
 
             {/* User info */}

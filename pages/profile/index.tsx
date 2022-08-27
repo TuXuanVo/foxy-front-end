@@ -235,7 +235,10 @@ const Profile: NextPageWithLayout = () => {
                                             </button>
                                         </li>
                                         <li>
-                                            <button className="flex items-center justify-start w-full gap-3 py-1 pl-2 rounded-md text-primary-50 button-2 bg-slate-100">
+                                            <button
+                                                className="flex items-center justify-start w-full gap-3 py-1 pl-2 rounded-md text-primary-50 button-2 bg-slate-100"
+                                                
+                                            >
                                                 <BsCoin />
                                                 <p>Coins package</p>
                                             </button>
