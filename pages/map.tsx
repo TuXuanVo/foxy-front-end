@@ -65,7 +65,7 @@ const MapContainer: NextPageWithLayout = () => {
     };
 
     useEffect(() => {
-        initGeolocation();
+        handlePermission();
         return () => {
             setFriends([]);
         };
