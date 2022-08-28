@@ -50,6 +50,7 @@ const OTP: NextPage = () => {
             Cookies.remove('userEmail');
             router.push(APP_PATH.SURF);
         } catch (error: any) {
+            console.log(error);
             toastError(error.error);
         }
     };
